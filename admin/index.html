@@ -54,5 +54,40 @@
 
         </div>
     </div>
+
+    <script>
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('get', 'http://localhost:8080/api/v1/admin/user/info');
+        xhr.setRequestHeader('Authorization', window.localStorage.getItem('token'));
+        xhr.send(null);
+        xhr.onreadystatechange = function () {
+            if (xhr.status == 200, xhr.readyState == 4) {
+                let Text = JSON.parse(xhr.responseText);
+                console.log(Text);
+
+                const src = Text.data.userPic;
+                const name = Text.data.nickname;
+                const img = document.querySelector('.user_info>img');
+                img.src = src;
+                const span = document.querySelector('.user_info>span');
+                // console.log(span);
+
+                span.innerHTML = '欢迎&nbsp&nbsp' + name;
+                const img2 = document.querySelector('.user_center_link>img');
+                img2.src = Text.data.userPic;
+
+            }
+
+        }
+        const quit = document.querySelector('.user_center_link .logout');
+
+        quit.onclick = function () {
+            window.location = './login.html';
+            window.localStorage.removeItem('token');
+        }
+
+    </script>
 </body>
+
 </html>
